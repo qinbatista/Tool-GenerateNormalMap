@@ -6,8 +6,7 @@ import scipy.misc
 from scipy import ndimage
 import argparse
 import os
-import imageio
-
+import imageio.v2 as imageio
 
 def smooth_gaussian(im, sigma):
 
@@ -93,17 +92,11 @@ def create_out_put_file(_path):
     file_format = os.path.splitext(_path)[-1]
     return file_path+"/"+file_name+"_normal_map"+file_format
 
-
 def main():
-
     parser = argparse.ArgumentParser(description='Compute normal map of an image')
-
     parser.add_argument('input_file', type=str, help='input image path')
-    # parser.add_argument('output_file', type=str, help='output image path')
-    # parser.add_argument('-s', '--smooth', default=0., type=float, help='smooth gaussian blur applied on the image')
-    # parser.add_argument('-it', '--intensity', default=1., type=float, help='intensity of the normal map')
-
     args = parser.parse_args()
+
 
     blur = 1
     detail_scale = 10
@@ -116,13 +109,9 @@ def main():
         im_grey = np.zeros((im.shape[0],im.shape[1])).astype(float)
         im_grey = (im[...,0] * 0.3 + im[...,1] * 0.6 + im[...,2] * 0.1)
         im = im_grey
-
     im_smooth = smooth_gaussian(im, blur)
-
     sobel_x, sobel_y = sobel(im_smooth)
-
     normal_map = compute_normal_map(sobel_x, sobel_y, detail_scale)
-
     imageio.imwrite(output_file, normal_map)
 
 
@@ -137,8 +126,8 @@ if __name__ == "__main__":
 
 
 
-    
-    
+
+
 
 
 
