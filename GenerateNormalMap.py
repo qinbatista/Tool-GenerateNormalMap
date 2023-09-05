@@ -127,6 +127,7 @@ class NormalMapGenerator:
         im_smooth = self.__smooth_gaussian(im, blur)
         sobel_x, sobel_y = self.__sobel(im_smooth)
         normal_map = self.__compute_normal_map(sobel_x, sobel_y, detail_scale)
+
         imageio.imwrite(output_file, normal_map)
 
     def _generate_normal_map_pool(self, index):
